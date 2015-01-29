@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'stock',
+        'USER': 'username',
+        'PASSWORD': 'password'
+    }
+}
