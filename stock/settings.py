@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# In the format (('Full Name', 'email@example.com'), ('Full Name', 'anotheremail@example.com'))
+ADMINS = (('Kapor Zhu', 'kapor.zhu@gmail.com'),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -38,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # local apps
+    'stock',
     'companies',
 )
 
@@ -79,6 +82,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/admin/login/?next=/companies/'
+
+EMAIL_HOST = 'smtp.126.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_SUBJECT_PREFIX = '[Stock]'
+EMAIL_USE_TLS = True
+SERVER_EMAIL = 'kapor.zhu@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

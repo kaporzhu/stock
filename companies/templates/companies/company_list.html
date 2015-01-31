@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-bordered table-striped table-hover">
+        {% for company in object_list %}
+        <tr>
+            <td>{{ company.name }}</td>
+            <td><a target="_blank" href="http://finance.sina.com.cn/realstock/company/{{ company.symbol }}/nc.shtml">{{ company.symbol }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% include "pagination.html" %}
+</div>
+{% endblock %}

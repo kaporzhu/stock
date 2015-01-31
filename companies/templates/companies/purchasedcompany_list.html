@@ -1,0 +1,32 @@
+{% extends "page.html" %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Result</th>
+            <th>Buy price</th>
+            <th>Highest price</th>
+            <th>Symbol</th>
+            <th>Sold at</th>
+            <th>Bought at</th>
+            <th></th>
+        </tr>
+        {% for purchased_company in object_list %}
+        <tr>
+            <td>{{ purchased_company.company.name }}</td>
+            <td>{{ purchased_company.get_status_display }}</td>
+            <td>{{ purchased_company.result|default_if_none:"" }}</td>
+            <td>{{ purchased_company.buy_price }}元</td>
+            <td>{{ purchased_company.highest_price }}元</td>
+            <td><a target="_blank" href="http://finance.sina.com.cn/realstock/company/{{ purchased_company.company.symbol }}/nc.shtml">{{ purchased_company.company.symbol }}</a></td>
+            <td>{% if purchased_company.status == "S" %}{{ purchased_company.sell_at|date:"y-m-d" }}{% endif %}</td>
+            <td>{{ purchased_company.buy_at|date:"y-m-d" }}</td>
+            <td><a href="{% url 'companies:update_purchased_company' pk=purchased_company.id %}">Sell out</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
