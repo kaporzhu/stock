@@ -13,5 +13,6 @@ class Command(BaseCommand):
         for purchased_company in PurchasedCompany.objects.filter(status='H'):
             latest_price = purchased_company.company.latest_price
             content += u'%s B:%s C:%s H:%s\n'%(purchased_company.company.name, purchased_company.buy_price, latest_price, purchased_company.highest_price)
-        send_mail(u'Daily Report', content, settings.EMAIL_HOST_USER,
-                  [settings.SERVER_EMAIL])
+        if content:
+            send_mail(u'Daily Report', content, settings.EMAIL_HOST_USER,
+                      [settings.SERVER_EMAIL])
