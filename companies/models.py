@@ -13,6 +13,9 @@ class Company(models.Model):
     def latest_price(self):
         return float(requests.get('http://hq.sinajs.cn/list=%s'%self.symbol).text.split(',')[3])
 
+    def __unicode__(self):
+        return self.name
+
 
 class Stock(models.Model):
     company = models.ForeignKey(Company)
@@ -29,6 +32,9 @@ class Stock(models.Model):
     amount = models.FloatField()  # 成交额（2375559.10万）
     created_at = models.DateField(auto_now_add=True, db_index=True)
 
+    def __unicode__(self):
+        return u'%s: %s元, %s' % (self.company, self.trade, self.changepercent)
+
 
 class SelectedCompany(models.Model):
     """
@@ -38,6 +44,9 @@ class SelectedCompany(models.Model):
     """
     company = models.ForeignKey(Company)
     created_at = models.DateField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.company
 
 
 class PurchasedCompany(models.Model):
@@ -54,3 +63,6 @@ class PurchasedCompany(models.Model):
     result = models.FloatField(blank=True, null=True)
     sell_at = models.DateField(auto_now_add=True)
     buy_at = models.DateField(auto_now_add=True)
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.company, self.get_status_display())
