@@ -12,14 +12,22 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         available_domains = []
+        total_domains = 0
+        failed_domains = 0
         for p1 in self.pinyin:
             for p2 in self.pinyin:
-                if 'Domain exists' not in requests.get(self.url%(p1+p2)).text:
-                    available_domains.append(p1+p2)
+                total_domains += 1
+                try:
+                    if 'Domain exists' not in requests.get(self.url%(p1+p2)).text:
+                        available_domains.append(p1+p2)
+                except:
+                    failed_domains
 
         if available_domains:
-            send_mail('Available domains', ' '.join(available_domains),
+            send_mail('Available domains',
+                      '%s[%d-%d]'%(' '.join(available_domains), total_domains, failed_domains),
                       settings.EMAIL_HOST_USER, [settings.SERVER_EMAIL])
         else:
-            send_mail('NO available domain is released today', '',
+            send_mail('NO available domain is released today',
+                      '[%d-%d]'%(total_domains, failed_domains),
                       settings.EMAIL_HOST_USER, [settings.SERVER_EMAIL])
