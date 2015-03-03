@@ -8,6 +8,7 @@
             <th>Status</th>
             <th>Result</th>
             <th>Buy price</th>
+            <th>Percent</th>
             <th>Highest price</th>
             <th>Symbol</th>
             <th>Sold at</th>
@@ -20,6 +21,7 @@
             <td>{{ purchased_company.get_status_display }}</td>
             <td>{{ purchased_company.result|default_if_none:"" }}</td>
             <td>{{ purchased_company.buy_price }}元</td>
+            <td>{{ purchased_company.percent }}</td>
             <td>{{ purchased_company.highest_price }}元</td>
             <td><a target="_blank" href="http://finance.sina.com.cn/realstock/company/{{ purchased_company.company.symbol }}/nc.shtml">{{ purchased_company.company.symbol }}</a></td>
             <td>{% if purchased_company.status == "S" %}{{ purchased_company.sell_at|date:"y-m-d" }}{% endif %}</td>

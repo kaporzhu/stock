@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.cache import cache
 from django.db import models
 
 import requests
@@ -11,7 +12,12 @@ class Company(models.Model):
 
     @property
     def latest_price(self):
-        return float(requests.get('http://hq.sinajs.cn/list=%s'%self.symbol).text.split(',')[3])
+        key = 'latest_price_%d'%self.id
+        latest_price = cache.get(key, None)
+        if not latest_price:
+            latest_price =float(requests.get('http://hq.sinajs.cn/list=%s'%self.symbol).text.split(',')[3])
+            cache.set(key, latest_price, 600)
+        return latest_price
 
     def __unicode__(self):
         return self.name
@@ -63,6 +69,10 @@ class PurchasedCompany(models.Model):
     result = models.FloatField(blank=True, null=True)
     sell_at = models.DateField(auto_now_add=True)
     buy_at = models.DateField(auto_now_add=True)
+
+    @property
+    def percent(self):
+        return (self.company.latest_price-self.buy_price)/self.buy_price
 
     def __unicode__(self):
         return u'%s: %s' % (self.company, self.get_status_display())
