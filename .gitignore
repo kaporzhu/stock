@@ -60,3 +60,4 @@ local_settings.py
 .project
 .pydevproject
 .settings/
+.idea

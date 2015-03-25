@@ -5,8 +5,8 @@
     <table class="table table-bordered table-striped table-hover">
         {% for selected_company in object_list %}
         <tr>
-            <td>{{ selected_company.company.name }}</td>
-            <td><a target="_blank" href="http://finance.sina.com.cn/realstock/company/{{ selected_company.company.symbol }}/nc.shtml">{{ selected_company.company.symbol }}</a></td>
+            <td><a target="_blank" href="http://finance.sina.com.cn/realstock/company/{{ selected_company.company.symbol }}/nc.shtml">{{ selected_company.company.name }}</a></td>
+            <td>{{ selected_company.company.latest_price }}</td>
             <td><a class="btn btn-primary btn-sm" href="{% url 'companies:create_purchased_company' %}?company={{ selected_company.company.id }}">Buy</a></td>
         </tr>
         {% endfor %}
